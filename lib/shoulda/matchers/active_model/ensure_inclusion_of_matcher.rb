@@ -138,15 +138,17 @@ module Shoulda # :nodoc:
         end
 
         def disallows_outside_values?
-          disallows_value_of(value_outside_of_array(@array))
+          disallows_value_of(value_outside_of_array)
         end
 
-        def value_outside_of_array(array)
-          not_in_array = array.last.next
-          while array.include?(not_in_array)
-            not_in_array.next!
+        def value_outside_of_array
+          @array.each do |item|
+            next_item = item.next
+            if !@array.include?(next_item)
+              return next_item
+            end
           end
-          not_in_array
+          raise NotImplementedError
         end
       end
     end

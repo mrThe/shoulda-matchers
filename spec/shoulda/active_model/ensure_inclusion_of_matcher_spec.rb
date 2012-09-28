@@ -12,6 +12,17 @@ describe Shoulda::Matchers::ActiveModel::EnsureInclusionOfMatcher do
     end
   end
 
+  context "with an array that does not allow next values" do
+    before do
+      @model = define_model(:example, :attr => :string) do
+      end.new
+    end
+
+    it "should raise a not implemented exception" do
+      expect {@model.should ensure_inclusion_of(:attr).in_array([""])}.to raise_error NotImplementedError
+    end
+  end
+
   context "an attribute which must be included in a range" do
     before do
       @model = define_model(:example, :attr => :integer) do
